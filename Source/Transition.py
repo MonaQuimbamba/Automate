@@ -39,9 +39,9 @@ class Transition:
     def afficheEntrees(self):
         res = ""
         for i in range(0, len(self.entree)):
-            res = res  self.entree[i]
+            res = res + self.entree[i]
             if i != len(self.entree) - 1:
-                res = res  ";"
+                res = res + ";"
         return res
 
     def getEtatSortie(self):

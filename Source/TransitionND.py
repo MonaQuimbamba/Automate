@@ -11,4 +11,11 @@ class TransitionND:
         return self
 
     def toString(self):
-        return str(self.entree)"->"str(self.char)"->"str(self.sortie)
+        return self.afficherEnsEtat(self.entree)+"->"+str(self.char)+"->"+self.afficherEnsEtat(self.sortie)
+
+    def afficherEnsEtat(self,etat):
+        res="["
+        for e in etat:
+            res+=str(e.nom)+" "
+        res+="]"
+        return res

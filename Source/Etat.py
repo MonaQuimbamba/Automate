@@ -20,4 +20,4 @@ class Etat:
         self.isFinal=b
 
     def stringEtat(self):
-        return " " str(self.nom)
+        return " " +str(self.nom)

@@ -1,7 +1,7 @@
-from Source.TransitionND import TransitionND as transitionND
-from Source.Etat import Etat as etat
-from Source.Transition import  Transition as transition
-from Source.Automate import Automate as automate
+from TransitionND import TransitionND as transitionND
+from Etat import Etat as etat
+from Transition import  Transition as transition
+from Automate import Automate as automate
 import sys, os
 
 """ Classe AEFND
@@ -82,10 +82,48 @@ class AEFND:
             if t not in l:
                 l.append(t)
                 for c in voc:
-                    u=self.lambda_Fermeture(self.transiter(t,c,aut),aut)
-                    d.append(transitionND().buildTransitionND(t,u,c))
-                    p.append(u)
+                    if c!="#":
+                        u=self.lambda_Fermeture(self.transiter(t,c,aut),aut)
+                        d.append(transitionND().buildTransitionND(t,u,c))
+                        p.append(u)
+
+        print("Etat : \n")
+        l=self.cleanEtat(l)
+        self.afficherEtat(l)
+        print("\n Transitions")
+        d = self.cleanTransition(d)
+        self.afficherTransition(d)
+
         return self.toAutomate(l,d,aut.getVoc(),aut.M)
+
+    def afficherEtat(self,l):
+
+        et = ""
+        i = 0
+        for etas in l:
+            i += 1
+            et += "["
+            for e in etas:
+                et += "" + str(e.nom)
+            et+="]"
+            et += "\n"
+        print(et)
+
+    def afficheOnlyEtat(self,l):
+        et="["
+        if l:
+            for e in l:
+                et+=str(e.nom)
+        et+="]"
+        print(et)
+
+    def afficherTransition(self,t):
+        trans="\n"
+        if t:
+            for tr in t:
+                trans+=str(tr.toString())+"\n"
+        print(trans)
+
 
     """ Renvoie un automate généré en fonction des listes d'états L et transitions D déterminisés,
      * du vocabulaire d'entrée voc et du méta-caractère meta : cette méthode est privée et utilisée
@@ -96,62 +134,69 @@ class AEFND:
      * @param meta Méta-caractère
      * @return Automate
      """
+    def cleanEtat(self,listEtat):
+        res=[]
+        for e in listEtat:
+            if e:
+                res.append(e)
+        return res
+
     def toAutomate(self,l,d,voc,m):
         etats=[]
         transitions=[]
         for e in l:
+             ## on se debarrasse des éttas avec transition null
             etats.append(etat(l.index(e)).builEtat1(l.index(e),False,False))
         etats[0].setIsiniTial(True)
+        etats[len(etats)-1].setIsFinal(True)
 
         for t in d:
             e = etats[l.index(t.entree)]
-            for a in t.entree:
-                if a.isFinal:
-                    e.setIsFinal(True)
 
-            s = etats[l.index(t.sortie)]
-            transitions.append(transition().buildTransition3(e,s,t.char))
+            if t.sortie:
+                s = etats[l.index(t.sortie)]
+                transitions.append(transition().buildTransition3(e,s,t.char))
+
 
         return automate(etats,transitions).buildAutomate4(etats,transitions,voc,m)
+
+    def cleanTransition(self,listTransition):
+        res=[]
+        for t in listTransition:
+            if len(t.entree)!=0 or len(t.sortie)!=0:
+                res.append(t)
+        return res
+
     """ Génère un fichier .descr a partir d'un automate a.
      * @param a Automate
      * @param name Nom de fichier"""
     def exporterDescr(self,aut,nom):
-        chemin = "Output/Descr/"
-        if nom != None:
-            tmp = ''.join(e for e in nom if e.isalnum())
-            chemin = tmp  ".descr"
-        else:
-            chemin = "no_name.descr"
-
+        chemin = "../Output/Descr/"+str(nom)
         if not os.path.isfile(chemin):
             f = open(chemin, "a")
         else:
-            cmd = "rm "  chemin
+            cmd = "rm " + chemin
             os.system(cmd)
+            f = open(chemin, "a")
 
-        f = open(chemin, "a")
-        f.write("C :\""  nom  "\" \n")
-        f.write("M '"  aut.M "'\n")
+        f.write("C :\""+  str(nom) + "\" \n")
+        f.write("M '"  +str(aut.M) +"'\n")
 
         voc="\""
         for c in aut.v:
-            voc=c
-        voc="\""
-        f.write("V " voc "\n")
-        f.write("E "  str(len(aut.etats))  "\n")
-
+            voc+=c
+        voc+="\""
+        f.write("V " +str(voc) +"\n")
+        f.write("E " + str(len(aut.etats)) + "\n")
         etatF=""
         for e in aut.etats:
             if e.isFinal:
-                etatF=str(e.nom)  " "
+                etatF+=str(e.nom)+  " "
 
-        f.write("F " str(etatF) "\n")
-
+        f.write("F " +str(etatF)+ "\n")
 
         for t in aut.transition:
-            f.write("T " str(t.etatEntree.nom)  " '"str(t.entree)"' "str(t.etatSortie.nom)"\n")
-
+            f.write("T " +str(t.etatEntree.nom) + " '"+str(t.entree)+"' "+str(t.etatSortie.nom)+"\n")
         f.close()
 
         return chemin

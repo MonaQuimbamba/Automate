@@ -4,9 +4,6 @@ class Automate:
         self.transition=t
         self.v=None
         self.M=None
-
-
-
     def buildAutomate2(self,e):
         self.etats=e
         return self

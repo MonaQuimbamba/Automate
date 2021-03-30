@@ -45,59 +45,58 @@ class Ligne:
     def toString(self):
         s=""
         if self.type=="C":
-            s="Ligne Commentaire :"self.lexemes[0]
+            s="Ligne Commentaire :"+self.lexemes[0]
 
         elif self.type=="M":
-            s = "Ligne méta-caractère :"  self.lexemes[0]
+            s = "Ligne méta-caractère :" + self.lexemes[0]
 
         elif self.type == "E":
             etats=""
             for str in self.lexemes:
-                etats=str" "
-            s="Etats : "etats
+                etats+=str+" "
+            s="Etats : "+etats
 
         elif self.type == "F":
             etatF = ""
             for str in self.lexemes:
-                etatF = str  " "
+                etatF = str  +" "
             if len(self.lexemes)>1:
-                s = "Etats finaux: "  etatF
+                s = "Etats finaux: " + etatF
             else:
-                s = "Etats final: "  etatF
-
-
+                s = "Etats final: " + etatF
 
         elif self.type == "I":
             etatI = ""
             for str in self.lexemes:
-                etatI = str  " "
+                etatI = str + " "
             if len(self.lexemes) > 1:
-                s = "Etats Initiaux: "  etatI
+                s = "Etats Initiaux: " + etatI
             else:
-                s = "Etats Initial: "  etatI
+                s = "Etats Initial: " + etatI
 
 
         elif self.type == "V":
             vocE = "\""
             for str in self.lexemes:
-                vocE = str
-            vocE="\""
-            s = "Vocabulaire d'entrée : "  vocE
+                vocE += str
+            vocE+="\""
+            s = "Vocabulaire d'entrée : " + vocE
+
 
         elif self.type == "O":
             vocS = "\""
             for str in self.lexemes:
-                vocS = str
-            vocS="\""
+                vocS += str
+            vocS+="\""
 
-            s = "Vocabulaire de sortie : "  vocS
+            s = "Vocabulaire de sortie : " + vocS
 
         elif self.type == "T":
             if len(self.lexemes)>3:
-                tr=self.lexemes[0]  " "  self.lexemes[1]  " "  self.lexemes[2]  " "  self.lexemes[3]  ""
+                tr=self.lexemes[0]+  " " + self.lexemes[1]+  " " + self.lexemes[2] + " " + self.lexemes[3]+  ""
             else:
-                tr = self.lexemes[0]  " "  self.lexemes[1]  " "  self.lexemes[2]
+                tr = self.lexemes[0]+  " " + self.lexemes[1] + " " + self.lexemes[2]
 
-            s= "Transition : "  tr
+            s= "Transition : " + tr
 
         return s
