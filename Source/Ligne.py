@@ -59,7 +59,7 @@ class Ligne:
         elif self.type == "F":
             etatF = ""
             for str in self.lexemes:
-                etatF = str  +" "
+                etatF += str  +" "
             if len(self.lexemes)>1:
                 s = "Etats finaux: " + etatF
             else:
@@ -68,7 +68,7 @@ class Ligne:
         elif self.type == "I":
             etatI = ""
             for str in self.lexemes:
-                etatI = str + " "
+                etatI += str + " "
             if len(self.lexemes) > 1:
                 s = "Etats Initiaux: " + etatI
             else:

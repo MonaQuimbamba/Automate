@@ -34,15 +34,15 @@ class Automate:
             if e.isFinal:
                 res.append(e)
         return res
-
     def getInit(self):
         res=None
         for e in self.etats:
             if e.isInitial:
                 res=e
         return res
-
     def getTransitions(self):
         return self.transition
     def getVoc(self):
         return self.v
+    def getEnsembleEtat(self):
+        return self.etats

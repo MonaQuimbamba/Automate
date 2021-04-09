@@ -16,6 +16,7 @@ class TransitionND:
     def afficherEnsEtat(self,etat):
         res="["
         for e in etat:
-            res+=str(e.nom)+" "
+            if e:
+                res+=str(e.nom)+" "
         res+="]"
         return res

@@ -13,6 +13,7 @@ def moteur(path):
 
     nomFile = path
 
+
     #
     menu1=True
     while menu1:
@@ -24,8 +25,10 @@ def moteur(path):
             print("Affichage de l'Automate non-determinisé")
             al1 =  analyseur(nomFile)
             al1.afficherDescrLigne()
+            al1.exportDot("avant")
             nonDet = aefnd()
             nomOutFile=nomFile.split("/")[-1:][0]
+            #al1.exportDot(nomOutFile)
             ## le determiniser
             newFile = nonDet.exporterDescr(nonDet.determiniser(al1.automate),nomOutFile)
             print("L'Automate est mtn  determinisé")

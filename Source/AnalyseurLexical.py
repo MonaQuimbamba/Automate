@@ -5,9 +5,9 @@ from Transition import Transition as transition
 from Automate import Automate as automate
 
 """La classe AnalyseurLexical lit les fichiers descr, analyse leur contenu et permet
- * de savoir si un fichier est valide ou non.
- * Elle permet également de traiter une entrée pour savoir si une elle est acceptée ou non
- * Elle contient une méthode permettant l'export du fichier lu en .dot
+  de savoir si un fichier est valide ou non.
+  Elle permet également de traiter une entrée pour savoir si une elle est acceptée ou non
+  Elle contient une méthode permettant l'export du fichier lu en .dot
  """
 class AnalyseurLexical:
     def __init__(self,fileName):
@@ -34,7 +34,9 @@ class AnalyseurLexical:
             lines = lines.rstrip()
             self.ajoutLigne(lines)
         self.createAutomate()
-
+        """ 
+        Permet de faire un automate
+        """
     def createAutomate(self):
         etats=[]
         trans=[]
@@ -166,6 +168,9 @@ class AnalyseurLexical:
             cmd = "dot -Tpng " + fileCheminDot+  " -o "  +nomImg
             os.system(cmd)
 
+    """
+        faire le fichier .dot pour generer le graph 
+    """
     def exportDot(self,nom):
 
         chemin = "../Output/Dot/"+str(nom)+".dot"
@@ -182,7 +187,7 @@ class AnalyseurLexical:
         f.write("node [shape = circle];\n")
         for itemI in self.automate.getInitiaux():
             f.write(str(itemI.nom))
-            f.write(" [color=red]\n")
+            f.write(" [color=blue]\n")
         for e in self.automate.getFinaux():
             f.write(str(e.nom))
             f.write(" [shape=doublecircle];\n")
@@ -199,14 +204,22 @@ class AnalyseurLexical:
         # generer le graph
         self.generatePng(chemin,nom)
 
+    """
+        afficher les lignes d'un automate
+    """
     def afficherDescrLigne(self):
         print("-"*50)
         for l in self.LignesListe:
             print(l.toString())
         print("-"*50)
 
+    """
+        modifier les liignes d'un automate
+    """
     def setLigne(self,b):
         self.LignesListe=b
-
+    """
+        ajouter lignes dans un automate
+    """
     def ajoutLigne(self,c):
         self.LignesListe.append(ligne(c))
